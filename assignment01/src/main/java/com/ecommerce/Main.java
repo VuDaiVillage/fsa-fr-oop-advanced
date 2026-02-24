@@ -4,8 +4,13 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        OrderService service = new OrderService();
-        
+        // Build dependencies and inject (explicit DI)
+        InventoryManager inventory = new InMemoryInventory();
+        DiscountStrategy discount = new DefaultDiscountStrategy();
+        NotificationService notifier = new ConsoleNotificationService();
+
+        OrderService service = new OrderService(inventory, discount, notifier);
+
         String orderId = service.createOrder(
             "CUST-001",
             "john@example.com",
